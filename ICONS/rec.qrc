@@ -1,0 +1,8 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>ARC logo.png</file>
+    <file>AppLogo.png</file>
+    <file>Avr_logo.svg.png</file>
+    <file>Atmega16_.png</file>
+  </qresource>
+</RCC>
