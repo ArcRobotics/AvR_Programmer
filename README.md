@@ -19,3 +19,6 @@ We believe in the power of collaboration and look forward to building an amazing
 ![Alt Text](SetIo.gif)
 
 
+##  Dependencies
+python 3.11.4 
+PySide6
