@@ -13,7 +13,7 @@ AvR_Programmer is an open-source project, and we welcome contributions from the 
 Whether you want to report a bug, suggest a new feature, or submit a pull request, your participation is highly appreciated.
 We believe in the power of collaboration and look forward to building an amazing community around AvR_Programmer.
 
-##  Setting Source
+##  Setting GPIOs
 
 **How to set GPIO pin input/output and/or give them name**
 ![Alt Text](SetIo.gif)
