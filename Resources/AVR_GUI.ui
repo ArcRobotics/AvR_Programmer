@@ -594,40 +594,7 @@ color: rgb(255, 255, 255);
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_4">
-       <item row="1" column="2">
-        <widget class="QCheckBox" name="Enable_I2C_Slave_checkBox"/>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_18">
-         <property name="text">
-          <string>Frequency</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2">
-        <widget class="QComboBox" name="ADC_chSelect_4">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="currentText">
-          <string>400</string>
-         </property>
-         <property name="currentIndex">
-          <number>0</number>
-         </property>
-         <item>
-          <property name="text">
-           <string>400</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>100</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="1" column="1">
+       <item row="0" column="1">
         <spacer name="horizontalSpacer_4">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -640,7 +607,7 @@ color: rgb(255, 255, 255);
          </property>
         </spacer>
        </item>
-       <item row="4" column="2">
+       <item row="3" column="2">
         <widget class="QPushButton" name="Set_I2C">
          <property name="enabled">
           <bool>true</bool>
@@ -650,7 +617,7 @@ color: rgb(255, 255, 255);
          </property>
         </widget>
        </item>
-       <item row="2" column="2">
+       <item row="1" column="2">
         <widget class="QPlainTextEdit" name="SlaveAddress">
          <property name="enabled">
           <bool>false</bool>
@@ -666,14 +633,17 @@ color: rgb(255, 255, 255);
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
+       <item row="0" column="0">
         <widget class="QLabel" name="label_19">
          <property name="text">
           <string>Slave</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
+       <item row="0" column="2">
+        <widget class="QCheckBox" name="Enable_I2C_Slave_checkBox"/>
+       </item>
+       <item row="1" column="0">
         <widget class="QLabel" name="label_20">
          <property name="text">
           <string>Slave Address</string>

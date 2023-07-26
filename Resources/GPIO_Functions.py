@@ -56,27 +56,26 @@ def set_GPIO_PIN(self):
     RegisterName=self.RegSelection.currentText()
     PinName=self.PinName.toPlainText()
     Mode=self.ModeSelection.currentText()
+    Pin=App_Functions.Find_Pin(self,RegisterName,pinNumber)
 
-    cmd=f"HAL.GPIO->pinMode(HAL.GPIO->{RegisterName},{pinNumber},{Mode});\n"
-    
-    #if the Class pointer is not defined , define it
-    if "HAL.init(HAL.GPIO);" not in self.CodeViwer_m.toPlainText():
-        App_Functions.addline(self,self.UserInitSection_end,"HAL.init(HAL.GPIO);\n")
+    if Pin.toolTip() =="":
+        cmd=f"HAL.GPIO->pinMode(HAL.GPIO->{RegisterName},{pinNumber},{Mode});\n"
+        #if the Class pointer is not defined , define it
+        if "HAL.init(HAL.GPIO);" not in self.CodeViwer_m.toPlainText():
+            App_Functions.addline(self,self.UserInitSection_end,"HAL.init(HAL.GPIO);\n")
 
-    if cmd not in self.CodeViwer_m.toPlainText():
-        #if there is a varibale name
-        if self.PinName.toPlainText() !="":
-            App_Functions.addline(self,self.UserDefineSection,f"#define {PinName} {pinNumber}\n")
-            cmd=f"HAL.GPIO->pinMode(HAL.GPIO->{RegisterName},{PinName},{Mode});\n"
+        if cmd not in self.CodeViwer_m.toPlainText():
+            #if there is a varibale name
+            if self.PinName.toPlainText() !="":
+                App_Functions.addline(self,self.UserDefineSection_end,f"#define {PinName} {pinNumber}\n")
+                cmd=f"HAL.GPIO->pinMode(HAL.GPIO->{RegisterName},{PinName},{Mode});\n"
+                App_Functions.ChangeToolTip(self,PinName,App_Functions.Find_Pin(self,RegisterName,pinNumber),Mode)
+                #clear the text box after setting the pin
+                self.PinName.setPlainText("")
+            else:
+                App_Functions.ChangeToolTip(self,None,App_Functions.Find_Pin(self,RegisterName,pinNumber),Mode)
             App_Functions.addline(self,self.UseCodeSection_end,cmd)
-
-            App_Functions.HighlightPin(self,RegisterName,pinNumber,Mode)
-            App_Functions.ChangeToolTip(self,PinName,App_Functions.Find_Pin(self,RegisterName,pinNumber),Mode)
-        else:
-            App_Functions.addline(self,self.UseCodeSection_end,cmd)
-
-            App_Functions.HighlightPin(self,RegisterName,pinNumber,Mode)
-            App_Functions.ChangeToolTip(self,None,App_Functions.Find_Pin(self,RegisterName,pinNumber),Mode)
+            App_Functions.HighlightPin(self,RegisterName,pinNumber,Mode)               
 #================================================================================#
 #                        Sets the GPIO Tab parameters                            #
 #================================================================================#
@@ -93,6 +92,8 @@ def Set_GPIO_Parameter_tab(self,cmd):
         self.RegSelection.setCurrentIndex(3)
 
     self.PinSelection.setCurrentIndex(int(cmd[2]))
+    self.SelectedPinName=None
+    App_Functions.FindSelectedPinName(self)
 #================================================================================#
 #                        Remove line between sections                            #
 #================================================================================#
@@ -121,21 +122,23 @@ def remove_code_section(plain_text_edit, start_marker, end_marker):
         # Get the text cursor and set the selection to the code section
         cursor = plain_text_edit.textCursor()
         cursor.setPosition(start_position+24)
-        cursor.setPosition(end_position-22 + len(end_marker), QTextCursor.KeepAnchor)
+        cursor.setPosition(end_position-23 + len(end_marker), QTextCursor.KeepAnchor)
         
         # Remove the selected code section
         cursor.removeSelectedText()
-
+#================================================================================#
+#                        Function to remove Pin Config                           #
+#================================================================================#
 def ResetPin(self):
     pinNumber=self.PinSelection.currentIndex()
     RegisterName=self.RegSelection.currentText()
     Mode=self.ModeSelection.currentText()
     cmd=f"HAL.GPIO->pinMode(HAL.GPIO->{RegisterName},{pinNumber},{Mode});\n"
+    cmd2=f"#define {self.SelectedPinName} {pinNumber}\n"
     if self.PinName.toPlainText() !="":
-        App_Functions.removeline(self,self.UserInitSection_Begin,cmd)
-        #App_Functions.ChangeToolTip(self,PinName,App_Functions.Find_Pin(self,RegisterName,pinNumber),Mode)
-    else:
-        App_Functions.removeline(self,self.UserInitSection_Begin,cmd)
-        App_Functions.ChangeToolTip(self,None,App_Functions.Find_Pin(self,RegisterName,pinNumber),"RM")
-        App_Functions.HighlightPin(self,RegisterName,pinNumber,"RM")
-        
+        cmd=f"HAL.GPIO->pinMode(HAL.GPIO->{RegisterName},{self.PinName.toPlainText()},{Mode});\n"
+    App_Functions.removeline(self,self.UserInitSection_Begin,cmd)
+    App_Functions.ChangeToolTip(self,None,App_Functions.Find_Pin(self,RegisterName,pinNumber),"RM")
+    App_Functions.HighlightPin(self,RegisterName,pinNumber,"RM")
+    App_Functions.removeline(self,self.UserDefineSection_Begin,cmd2)
+    App_Functions.ResetVariableBox(self)

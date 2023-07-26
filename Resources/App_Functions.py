@@ -161,6 +161,47 @@ def removeline(self, Section, line_to_remove):
                 return
 
             cursor.movePosition(QTextCursor.NextBlock)
+#================================================================================#
+#                        Function to Find Pin Name                               #
+#================================================================================#
+def FindSelectedPinName(self):        
+    pinNumber=self.PinSelection.currentIndex()
+    RegisterName=self.RegSelection.currentText()
+    pin=Find_Pin(self,RegisterName,pinNumber)
+
+    Mode_index = pin.toolTip().find("Mode:")
+    if Mode_index != -1:
+        # Extract the value after "Name:" until the end of the line
+        line_end_index = pin.toolTip().find("\n", Mode_index)
+        Mode = pin.toolTip()[Mode_index + len("Mode:"):line_end_index].strip()
+        if Mode =="OUTPU":
+            self.ModeSelection.setCurrentIndex(0)
+        elif Mode=="INPU":
+            self.ModeSelection.setCurrentIndex(1)
+
+
+    # Check if "Name:" is in the tooltip
+    name_index = pin.toolTip().find("Name:")
+    if name_index != -1:
+        # Extract the value after "Name:" until the end of the line
+        line_end_index = pin.toolTip().find("\n", name_index)
+        PinName = pin.toolTip()[name_index + len("Name:"):line_end_index].strip()
+        if PinName.isdigit():
+            self.PinName.setPlainText("")
+        elif PinName=="None":
+            self.PinName.setPlainText("")
+        else:
+            self.PinName.setPlainText(PinName)
+            self.PinName_2.setPlainText(PinName)
+            self.SelectedPinName=PinName
+    else:
+        ResetVariableBox(self)
+#================================================================================#
+#                           Function to clear Var Name box                       #
+#================================================================================#
+def ResetVariableBox(self):
+    self.PinName.setPlainText("")
+    self.PinName_2.setPlainText("")  
 
 def setDarkMode(self):
     # Define dark mode colors

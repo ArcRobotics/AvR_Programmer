@@ -16,7 +16,7 @@ class CodeView_Window(QDialog):
 
         # Create a QTextEdit widget
         self.code_edit = QPlainTextEdit()
-        self.code_edit.setReadOnly(True)
+        #self.code_edit.setReadOnly(True)
         layout.addWidget(self.code_edit)
 
         # Set the code text for the QTextEdit widget

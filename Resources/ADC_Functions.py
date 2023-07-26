@@ -17,12 +17,13 @@ def setChannel(self):
             App_Functions.addline(self,self.UserInitSection_end,Line+'\n')
         if PinName !="":
             App_Functions.addline(self,self.UserDefineSection_end,f"#define {PinName} {pinNumber}\n")
-
-            App_Functions.HighlightPin(self,RegisterName,pinNumber,Mode)
-            App_Functions.ChangeToolTip(self,None,App_Functions.Find_Pin(self,RegisterName,pinNumber),Mode)
-        else:          
-            App_Functions.HighlightPin(self,RegisterName,pinNumber,Mode)
-            App_Functions.ChangeToolTip(self,None,App_Functions.Find_Pin(self,RegisterName,pinNumber),Mode)
+            App_Functions.ChangeToolTip(self,PinName,App_Functions.Find_Pin(self,RegisterName,pinNumber),Mode)
+            #clear the text box after setting the pin
+            self.PinName_2.setPlainText("")
+        else:   
+            App_Functions.ChangeToolTip(self,None,App_Functions.Find_Pin(self,RegisterName,pinNumber),Mode)       
+        App_Functions.HighlightPin(self,RegisterName,pinNumber,Mode)
+            
 #================================================================================#
 #                              Reset ADC Pin  Channel                            #
 #================================================================================#
@@ -31,9 +32,13 @@ def ResetADCPin(self):
     RegisterName=self.RegSelection.currentText()
     Mode=self.ModeSelection.currentText()
     cmd=f"HAL.GPIO->pinMode(HAL.GPIO->{RegisterName},{pinNumber},{Mode});\n"
+    if self.SelectedPinName!="":
+        cmd2=f"#define {self.SelectedPinName} {pinNumber}\n"
     App_Functions.removeline(self,self.UserInitSection_Begin,cmd)
     App_Functions.ChangeToolTip(self,None,App_Functions.Find_Pin(self,RegisterName,pinNumber),"RM")
     App_Functions.HighlightPin(self,RegisterName,pinNumber,"RM")
+    App_Functions.removeline(self,self.UserDefineSection_Begin,cmd2)
+    App_Functions.ResetVariableBox(self)
 #================================================================================#
 #                     Enable or disable ADC TAB  widgets                         #
 #================================================================================#
