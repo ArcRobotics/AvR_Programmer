@@ -1,5 +1,7 @@
 # AvR_Programmer - Unleash Atmega's Power!
 
+![Version](https://img.shields.io/badge/Version-1.1-orange)
+
 **A versatile and user-friendly toolkit for coding Atmega microcontrollers.**
 
 Simplify GPIO configuration, set up ADC for analog input, and enable UART, SPI, and I2C modules effortlessly. 
