@@ -1,9 +1,19 @@
 #ifndef Hal_H_
 #define Hal_H_
+#ifndef io_H_
+	#include <avr/io.h>
+#endif
+
+#ifndef delay_H_
+	#include <util/delay.h>
+#endif
+
+#ifdef DEBUG
+	#warning "You are running debug mode"
+#endif // _DEBUG
+
 #include <string.h>
-#include <avr/io.h>
 #include <avr/interrupt.h>
-#include <util/delay.h>
 #include <util/atomic.h>
 #include "GPIO_src/Gpio.h"
 #include "ADC_src/ADC_lib.h"
@@ -48,11 +58,11 @@ public:
 		if (!Disable_Int)//To disable Interrupts Change the initialization to ->HAL(true) 
 		{
 			Enable_interrupts();		
+		}
 		adc=&_ADC;//Pointer to adc class object
 		TWI=&_I2C;//point to I2C class object
 		GPIO=&_GPIO;//point to IO class object
 		Serial=&_UART;//point to Uart class object
-		}
 	}
 
 }HAL(false);

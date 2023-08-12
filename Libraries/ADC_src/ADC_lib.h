@@ -3,11 +3,7 @@
 
 #include <avr/io.h>
 #include <math.h>
-/*
-#ifndef F_CPU
-# warning "F_CPU not defined"
-# define F_CPU 1000000UL
-#endif*/
+
 //=========================================================
 class AdC 
 {
@@ -32,7 +28,6 @@ class AdC
 	{
 		Mode=RunningMode;
 		TenBitMode=Resloution;
-		INIT();
 	}
 };
 

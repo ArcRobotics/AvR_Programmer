@@ -2,28 +2,14 @@
 #define GPIO_H_
 
 #include <avr/io.h>
-
-enum GpIoMode
-{
-	INPUT,
-	OUTPUT,
-	TOGGLE,
-};
-
-enum GpIoState
-{
-	HIGH=1,
-	LOW=0,
-};
-
-
+#include "../Avr_Enums.h"
 class IO{
 
 public:
-	void pinMode(const uint8_t *Register,uint8_t pin,GpIoMode mode);
-	void digitalWrite(const uint8_t *port,uint8_t pin,GpIoState state);
-	void digitalWrite(const uint8_t* port, uint8_t pin, bool state);
-	bool digitalRead(const uint8_t *port,uint8_t pins);
+	virtual void pinMode(const uint8_t *Register,uint8_t pin,GpIoMode mode);
+	virtual void digitalWrite(const uint8_t *port,uint8_t pin,GpIoState state);
+	virtual void digitalWrite(const uint8_t* port, uint8_t pin, bool state);
+	virtual bool digitalRead(const uint8_t *port,uint8_t pins);
 	
 		const uint8_t *RegA;//Address of DDRA
 		const uint8_t *RegB;//Address of DDRB
