@@ -48,6 +48,10 @@ class I2C
 	private:
 	
 	unsigned long *Fcpu;
+	uint8_t GetTWIF();	//Return the TWI in The TSCR status code
+	void waitForTWI();	//Wait for The TWI Flag to Be set
+	void clearTWIF();	//Clear the TWI Flag
+	char Error();	//Return the TWI in The TSCR status code
 	public:
 	byte _SlaveAdress;
 	uint32_t BAUD;
@@ -55,29 +59,25 @@ class I2C
 	I2C(uint32_t BAUD_freq=100){
 		BAUD=BAUD_freq;
 	}
-
-	void INIT();			//Initialize the TWI Module
-	void INIT(uint32_t freqKHZ){BAUD=freqKHZ;INIT();};			//Initialize the TWI Module
 	void Begin(uint8_t* slave_adress);	//Begin Communication As a master
 	void BeginSlave(uint8_t slave_adress);	//Begin Communication As a slave
 	void Write(char* data);					//Write a byte of Data
 	void Write(uint8_t data);		//Write a byte of Data
 	void Write(int data){Write((uint8_t)data);};		//Write a byte of Data
-	void SendString(char* Data);			//Send A string of Data 
+	void SendString(char* Data);			//Send A string of Data
 	char read();							//Reads a byte of data
 	char readSlave();						//Reads a byte of data
 	char readUntil(char Termnitnator);		//Reads a string of data
-	void waitForTWI();	//Wait for The TWI Flag to Be set
-	void clearTWIF();	//Clear the TWI Flag
 	bool available();	//Wait Until it's being addressed
 	void end();			//End Wire transmission as a slave
 	void SendACK();     //Send ACK if you want to receive more than one byte
 	void SendNACK();     //Send NACK if you Don't want to receive more than one byte
-	char Error();	//Return the TWI in The TSCR status code
 	void setSlaveAddress(int8_t address){_SlaveAdress=(int8_t)address;}
-	uint8_t GetTWIF();	//Return the TWI in The TSCR status code
-	uint8_t Scan();
 	void setFreq(unsigned long *freq){Fcpu=freq;};
+	uint8_t Scan();
+	void INIT();			//Initialize the TWI Module
+	void INIT(uint32_t freqKHZ){BAUD=freqKHZ;INIT();};			//Initialize the TWI Module
+
 };
 
 #endif /* I2C_H_ */
