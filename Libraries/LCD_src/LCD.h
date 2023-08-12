@@ -1,4 +1,15 @@
-/**Created by Omar al rafei**/
+/*
+ * AVR Programmer V1.0
+ * Created by Omar Al Rafei
+ * 
+ * This code is distributed under the GNU General Public License (GPL) version 3 or later.
+ * For more details, see: https://www.gnu.org/licenses/gpl.html
+ *
+ * This code is intended for educational purposes only. Commercial use is prohibited.
+ * You are required to provide proper attribution to the author, Omar Al Rafei, whenever
+ * using or distributing this code.
+ */
+
 #ifndef	LCD //if not defined
 #define LCD //define LCD
 #include "../I2C_src/i2c.h"
