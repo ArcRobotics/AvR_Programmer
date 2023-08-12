@@ -8,8 +8,9 @@
 
 #ifndef PCF8574_H_
 #define PCF8574_H_
+#include "I2C_src/i2c.h"
 
-class I2COExpander{
+class I2COExpander:public I2C {
 	private:
 	uint8_t  _PCFAddress;	//Default Slave Address
 	int8_t pin;
@@ -23,11 +24,10 @@ class I2COExpander{
 	bool readPin(uint8_t pinNum);
 	I2COExpander()
 	{
-		_PCFAddress=0x40;	//Default Slave Address
-		pin=0xFF;
+		INIT();
+		_PCFAddress=0x20;	//Default Slave Address
+		pin=0x00;
 	}
-		
-
 }IOexp;
 //===============================================//
 void I2COExpander::init(int8_t address)
@@ -89,3 +89,18 @@ bool I2COExpander::readPin(uint8_t pinNum)
 }
 
 #endif /* PCF8574_H_ */
+
+
+
+/*
+	HAL.GPIO->pinMode(HAL.GPIO->RegD,7,OUTPUT);
+
+	HAL.GPIO->digitalWrite(HAL.GPIO->PortD,7,IOexp.readPin(6));
+	_delay_ms(500);
+	
+	IOexp.ClearPin(0);
+	_delay_ms(100);
+	
+	IOexp.setPin(0);
+	_delay_ms(100);
+*/

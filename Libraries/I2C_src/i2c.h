@@ -42,23 +42,27 @@
 #define SLVW_ACK 0xA8			//SLV+R ACK
 #define SLV_DATA_ACK 0x80		//Data Received
 
+typedef uint8_t byte;
 class I2C
 {
 	private:
-	uint8_t _SlaveAdress;
+	
 	unsigned long *Fcpu;
 	public:
+	byte _SlaveAdress;
 	uint32_t BAUD;
 	
-	I2C(int32_t BAUD=400){
-		this->BAUD=BAUD;
+	I2C(uint32_t BAUD_freq=100){
+		BAUD=BAUD_freq;
 	}
 
 	void INIT();			//Initialize the TWI Module
+	void INIT(uint32_t freqKHZ){BAUD=freqKHZ;INIT();};			//Initialize the TWI Module
 	void Begin(uint8_t* slave_adress);	//Begin Communication As a master
 	void BeginSlave(uint8_t slave_adress);	//Begin Communication As a slave
 	void Write(char* data);					//Write a byte of Data
-	void Write(uint8_t data);					//Write a byte of Data
+	void Write(uint8_t data);		//Write a byte of Data
+	void Write(int data){Write((uint8_t)data);};		//Write a byte of Data
 	void SendString(char* Data);			//Send A string of Data 
 	char read();							//Reads a byte of data
 	char readSlave();						//Reads a byte of data
@@ -73,6 +77,7 @@ class I2C
 	void setSlaveAddress(int8_t address){_SlaveAdress=(int8_t)address;}
 	uint8_t GetTWIF();	//Return the TWI in The TSCR status code
 	uint8_t Scan();
+	void setFreq(unsigned long *freq){Fcpu=freq;};
 };
 
 #endif /* I2C_H_ */

@@ -36,40 +36,46 @@ void Uart::INIT()
 	UCSRC&=~(1<<UMSEL);			//Asynchronous Mode
 }
 //==============================================//
-void Uart::print(unsigned char data)						//send Data
-{
-	while(!(UCSRA &(1<<UDRE)));							//while UDRE  flag is clear
-	UDR=data;											//Fill UART Data register with data
-	while(!(UCSRA &(1<<TXC)));
-}
-//==============================================//
 unsigned char Uart::read()								//receive data
 {
 	while(!(UCSRA &(1<<RXC)));						//while RXC  flag is clear wait for the response
 	return(UDR);									//return the UDR data
 }
 //==============================================//
-void Uart::println(char *string)
+void Uart::print(uint8_t *data)							//send Data
 {
-
-	while(string!='\0')
-	{
-		print((unsigned char)*string);
-		string++;
-	}
-	print((unsigned char)'\n');
-	//transdata('\r');
+	while(!(UCSRA &(1<<UDRE)));							//while UDRE  flag is clear
+	UDR=*data;									//Fill UART Data register with data
+	while(!(UCSRA &(1<<TXC)));
 }
 //==============================================//
-void Uart::println(const char *string)
+void Uart::print(char data)							//send Data
 {
-	println(string);
+	print((uint8_t *)&data);
 }
 //==============================================//
 void  Uart::println(char *string,int value,PrintMode printType)
 {
 	Type=printType;
 	println(string,value);
+}
+//==============================================//
+void Uart::println(const char *string)
+{
+	//Convert constant char pointer to char pointer
+	println((char *)string);
+}
+//==============================================//
+void Uart::println(char *string)
+{
+
+	while(*string!='\0')
+	{
+		print((uint8_t *)string);
+		string++;
+	}
+	print('\n');
+	print('\r');
 }
 //==============================================//
 void Uart::println(const char *string,int value)
@@ -80,16 +86,16 @@ void Uart::println(const char *string,int value)
 
 	while(*string!=Null)
 	{
-		print((unsigned char)*string);
+		print((uint8_t *)string);
 		string++;
 	}
 	
 	while(*dataPtr!=Null)
 	{
-		print((unsigned char)*dataPtr);
+		print((uint8_t *)dataPtr);
 		dataPtr++;
 	}
-	print((unsigned char)'\r');
+	print((uint8_t *)'\r');
 }
 
 

@@ -15,6 +15,7 @@ class AdC
 	//You cannot override these values
 	int16_t ADC_ConversionValue;	//Store output Values here
 	unsigned long PreS;
+	unsigned long *Fcpu;
 	bool Mode;
 	bool TenBitMode;
 
@@ -25,8 +26,8 @@ class AdC
 	void setMode(uint8_t Mode);
 	void INIT();
 	float analogRead(uint8_t channel);
+	void setFreq(unsigned long *freq){Fcpu=freq;};
 	
-	unsigned long *Fcpu;
 	AdC(bool RunningMode = true,bool Resloution= true)
 	{
 		Mode=RunningMode;

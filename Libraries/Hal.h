@@ -12,7 +12,7 @@
 
 
 
-
+typedef uint8_t byte;
 
 	
 class hal:public I2C {
@@ -28,6 +28,7 @@ Uart	_UART;
 public:
 	void init(AdC* classPointer);
 	void init(I2C* classPointer);
+	void init(I2C* classPointer,uint32_t Freq);
 	void init(IO* classPointer);
 	void init(Uart* classPointer);
 	inline void Enable_interrupts(){sei();};
@@ -46,8 +47,7 @@ public:
 		Disable_Int=Dis_Int;
 		if (!Disable_Int)//To disable Interrupts Change the initialization to ->HAL(true) 
 		{
-			Enable_interrupts();
-			
+			Enable_interrupts();		
 		adc=&_ADC;//Pointer to adc class object
 		TWI=&_I2C;//point to I2C class object
 		GPIO=&_GPIO;//point to IO class object
@@ -61,13 +61,21 @@ public:
 void hal::init(AdC* classPointer)
 {
 	adc=classPointer;
-	adc->Fcpu=&FCPU;
+	adc->setFreq(&FCPU);
 	if(adc !=NULL){adc->INIT();}	
+}
+//===========================================//
+void hal::init(I2C* classPointer,uint32_t Freq)
+{
+	TWI=classPointer;
+	TWI->setFreq(&FCPU);
+	if(TWI !=NULL){TWI->INIT(Freq);}
 }
 //===========================================//
 void hal::init(I2C* classPointer)
 {
 	TWI=classPointer;
+	TWI->setFreq(&FCPU);
 	if(TWI !=NULL){TWI->INIT();}
 }
 //===========================================//
@@ -87,74 +95,3 @@ inline void hal::delay(double ms){
 }
 //===========================================//
 #endif /* HAL_H_ */
-
-/*
-
-
-		ISR(USART_RXC_vect)
-		{
-			//when data is received we should:
-			// Store it in the buffer increment the Head
-			//if the Head > buffer size make it go to zero
-			//Make sure there is data received not equal null
-			if (HAL.Serial->RX_Head<(HAL.Serial->RX_Buffer+(sizeof(HAL.Serial->RX_Buffer)-1)))
-			{
-				*HAL.Serial->RX_Head=UDR;
-				HAL.Serial->RX_Head++;
-			}
-			else HAL.Serial->RX_Head=HAL.Serial->RX_Buffer;
-		}
-		ISR(USART_UDRE_vect)
-		{
-			ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
-			{
-				if(HAL.Serial->Transmit==true)
-				{
-					HAL.Serial->Next_TX_Tail=HAL.Serial->TX_Tail+1;
-					if (HAL.Serial->ptrOutofBound(HAL.Serial->Next_TX_Tail))
-					{
-						HAL.Serial->Next_TX_Tail=HAL.Serial->TX_Buffer;
-					}
-					
-					if (*HAL.Serial->TX_Tail!='\0'){
-						UDR=*HAL.Serial->TX_Tail;
-						*HAL.Serial->TX_Tail='\0';
-					}
-					if (*HAL.Serial->Next_TX_Tail=='\0'&&((UCSRA&(1<<TXC))==0))
-					{
-						HAL.Serial->Transmit=false;
-						HAL.Serial->isTransmitting=false;
-					}
-					HAL.Serial->TX_Tail=HAL.Serial->Next_TX_Tail;
-					
-				}
-			}
-		}
-
-
-		if (HAL.Serial->isready && (HAL.Serial->Numofbytes==0||*HAL.Serial->Next_TX_Tail!=Null))
-		{
-			HAL.Serial->Transmitting=true;
-			HAL.Serial->Next_TX_Tail= HAL.Serial->TX_Tail+1;
-			if ( HAL.Serial->Next_TX_Tail<( HAL.Serial->TX_Buffer+(sizeof( HAL.Serial->TX_Buffer))))
-			{
-				//Don't throw garbage!
-				//if(* TX_Tail!='\0')UDR=* TX_Tail;
-				UDR=* HAL.Serial->TX_Tail;
-			}
-			else {
-				HAL.Serial->Next_TX_Tail= HAL.Serial->TX_Buffer;
-				//Don't throw garbage!
-				//if(* Next_TX_Tail!='\0')UDR=* TX_Tail;
-				UDR=* HAL.Serial->TX_Tail;
-			}
-			* HAL.Serial->TX_Tail='\0';
-			if ( HAL.Serial->Next_TX_Tail==( HAL.Serial->TX_Head)) HAL.Serial->Next_TX_Tail= HAL.Serial->TX_Head;
-			HAL.Serial->TX_Tail= HAL.Serial->Next_TX_Tail;
-		}
-		else {
-			HAL.Serial->Transmitting=false;
-			HAL.Serial->isready=false;
-		}
-	}
-*/
