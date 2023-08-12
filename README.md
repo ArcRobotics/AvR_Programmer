@@ -18,7 +18,7 @@ We believe in the power of collaboration and look forward to building an amazing
 ## How to add HAL files and folders to atmel studio project
 https://microchip.my.site.com/s/article/Add-multiple-files-and-folders-to-existing-project-in-Atmel-Studio6#:~:text=How%20to%20add%20multiple%20files,as%20shown%20in%20the%20snapshot
 
-##You can get the app.exe here
+## You can find the .exe app here
 https://drive.google.com/file/d/1PbbKFfOfyh35ct1eGBFj-SQYJi-7ZmVG/view?usp=drive_link
 
 ##  Setting GPIOs
