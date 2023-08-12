@@ -28,11 +28,10 @@ private:
 public:
 	void Begin(uint16_t Baud);
 	void INIT();
-	void print(unsigned char data);
-	void print(int data);
+	void print(uint8_t *data);
+	void print(char data);
 	void print(float data);
-	void print(double data);
-	void println(char string);
+	void print(double data);	
 	void println(char *string);
 	void println(const char *string);
 	void println(const char *string,int value);

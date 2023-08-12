@@ -1,27 +1,22 @@
 #include "I2C.h"
-#define F_CPU 16000000UL
+
 //========================================//
 void I2C::INIT()
 {
-	TWCR|=(1<<TWEA);//Enable acknowledgment
-	TWCR|=(1<<TWEN);//Enable I2C
-	TWBR = ((*Fcpu/ BAUD) - 16UL) / 4;	//16MHz F_CPU
-	TWSR=TWSR&0xF0;
-	
+	//clear the TWSR
+   TWSR = 0; // Clear the pre-scaler bits
+   TWBR =(((*Fcpu) / (BAUD * 1000UL))-16UL) / 2UL;
+   //TWCR |= (1 << TWEA); // Enable acknowledgment
+   TWCR = (1 << TWEN); // Enable I2C
 }
 //========================================//
 void I2C::Begin(uint8_t* slave_adress)
 {
 	_SlaveAdress=*slave_adress;
-	
-	TWCR&=~(1<<TWSTO);
-	TWCR|=(1<<TWSTA);	//Start
-	clearTWIF();		//CLear TWI
+	TWCR = (1 << TWSTA) | (1 << TWEN) | (1 << TWINT);
 	waitForTWI();		//Wait For ACK 0x08
 	
 	if(GetTWIF()!=ACK && GetTWIF()!=MT_SlA_ACK)Error();
-	
-
 }
 //========================================//
 void I2C::BeginSlave(uint8_t slave_adress)
@@ -32,20 +27,21 @@ void I2C::BeginSlave(uint8_t slave_adress)
 //========================================//
 void I2C::Write(uint8_t data)					//Write a byte of Data
 {
-	TWDR=_SlaveAdress;		//Repeated Start with SLA+W
+	//Shift the slave address to the left by one as to add Write bit =0
+	TWDR=_SlaveAdress<<1;		//Repeated Start with SLA+W
 	clearTWIF();			//CLear TWI
 	waitForTWI();			//Wait For ACK 0x18
-	if(GetTWIF()!=MT_SlA_ACK)Error();
+	//if(GetTWIF()!=MT_SlA_ACK)Error();
 	
 	TWDR=data;				//Load The data to the TWDR
 	clearTWIF();			//CLear TWI
 	waitForTWI();			//Wait For ACK 0x28
-	if(GetTWIF()!=MT_DATA_ACK)Error();
+	//if(GetTWIF()!=MT_DATA_ACK)Error();
 }
 //========================================//
 char I2C::read(){
 	
-	TWDR=_SlaveAdress;		//Repeated Start with SLA+W
+	TWDR=(_SlaveAdress<<1)|0x01;		//Repeated Start with SLA+R
 	clearTWIF();			//CLear TWI
 	waitForTWI();			//Wait For ACK 0x40 or 0x48 or 0x28
 	if(GetTWIF()!=MR_SLA_ACK && GetTWIF()!=MR_SLA_NACK && GetTWIF()!=MT_DATA_ACK)Error();
@@ -57,7 +53,7 @@ char I2C::read(){
 }
 //========================================//
 char I2C::readSlave(){
-	clearTWIF();		//CLear TWI
+	clearTWIF();		//CLear 
 	waitForTWI();		//Wait For ACK 0x80
 	if (GetTWIF()!=0x80)return(Error());
 	else return(TWDR);
@@ -82,14 +78,8 @@ char I2C::Error()
 //========================================//
 void I2C::end()
 {
-	clearTWIF();			//CLear TWI
-	TWCR |= (1 << TWSTO);
-	TWCR &=~(1 << TWSTA);
-}
-//========================================//
-uint8_t I2C::GetTWIF()
-{
-	return(TWSR&0XF8);
+	TWCR = (1 << TWSTO) | (1 << TWINT) | (1 << TWEN);
+	while (TWCR & (1 << TWSTO));
 }
 //========================================//
 void I2C::waitForTWI()
@@ -99,7 +89,12 @@ void I2C::waitForTWI()
 //========================================//
 void I2C::clearTWIF()
 {
-	TWCR|=(1<<TWINT)|(1<<TWEN);
+	TWCR=(1<<TWINT)|(1<<TWEN);
+}
+//========================================//
+uint8_t I2C::GetTWIF()
+{
+	return(TWSR&0xF8);
 }
 //========================================//
 bool I2C::available()
@@ -112,22 +107,23 @@ bool I2C::available()
 //========================================//
 void I2C::SendACK()
 {
-TWCR |= (1 << TWEA);   // Send ACK (more data expected)
+	TWCR |= (1 << TWEA);   // Send ACK (more data expected)
 }
 //========================================//
 uint8_t I2C::Scan()
 {
-	for (uint8_t i=10;i<127;i++)
+	for (uint8_t i=0;i<127;i++)
 	{
 		Begin(&i);
 		TWDR=_SlaveAdress;		//Repeated Start with SLA+W
 		clearTWIF();			//CLear TWI
 		waitForTWI();			//Wait For ACK 0x18
-		end();
-		if(GetTWIF()==MT_SlA_ACK)
+		if(GetTWIF()==MT_SlA_ACK || GetTWIF()==ACK)
 		{
+			end();
 			break;
 		}
+		end();
 	}
-	return _SlaveAdress;
+	return (_SlaveAdress>>1);
 }
