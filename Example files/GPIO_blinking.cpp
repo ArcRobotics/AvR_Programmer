@@ -46,7 +46,6 @@ int main(void)
 	while(1)
 	{
 		HAL.GPIO->digitalWrite(HAL.GPIO->PortB,Led,HIGH);
-
 		HAL.delay(500);
 		
 		HAL.GPIO->digitalWrite(HAL.GPIO->PortB,Led,LOW);
