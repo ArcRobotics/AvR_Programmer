@@ -44,9 +44,32 @@ def PinIscliked(self):
 #================================================================================#
 def NewIsClicked(self):
     self.filePath=None
-    remove_code_section(self.CodeViwer_m, self.UserDefineSection_Begin, self.UserDefineSection_end)
-    remove_code_section(self.CodeViwer_m,self.UserInitSection_Begin,self.UserInitSection_end)
-    remove_code_section(self.CodeViwer_m,self.UseCodeSection_Begin,self.UseCodeSection_end)
+    NewTexT = '''#define F_CPU 16000000UL
+#include <avr/io.h>
+#include "Libs/Hal.h"
+
+/* USER Define BEGIN 1 */
+/* USER Define END 1 */
+
+int main(void)
+{
+HAL.MCU_Freq(F_CPU);
+
+/* USER INIT BEGIN 1 */
+/* USER INIT END 1 */
+
+/* USER CODE BEGIN 1 */
+/* USER CODE END 1 */
+
+while(1)
+{
+    // Add your recurring code here
+}
+
+return 0;
+}
+    '''
+    self.CodeViwer_m.setPlainText(NewTexT)
 #================================================================================#
 #                      Make a variable name with pin no                          #
 #================================================================================#

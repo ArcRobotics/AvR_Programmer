@@ -100,6 +100,10 @@ def HighlightPin(self,Reg,pinNum,Mode):
         pin.setStyleSheet("QPushButton{background-color: rgb(170, 0, 255);\
             color: \
                 rgb(255, 255, 255);};")
+    elif Mode =="Timer":
+        pin.setStyleSheet("QPushButton{background-color: rgb(255, 170, 0);\
+            color: \
+                rgb(255, 255, 255);};")        
     else:
         pin.setStyleSheet("")        
 #================================================================================#
@@ -205,18 +209,18 @@ def ResetVariableBox(self):
 
 def setDarkMode(self):
     # Define dark mode colors
-    dark_palette = QPalette()
-    dark_palette = QPalette()
-    dark_palette.setColor(QPalette.Window, QColor(53, 53, 53))
-    dark_palette.setColor(QPalette.WindowText,Qt.white)
-    dark_palette.setColor(QPalette.Base, QColor(25, 25, 25))
-    dark_palette.setColor(QPalette.AlternateBase, QColor(53, 53, 53))
-    dark_palette.setColor(QPalette.ToolTipBase, QColor(53, 53, 53))
-    dark_palette.setColor(QPalette.ToolTipText, Qt.white)
-    dark_palette.setColor(QPalette.Text, Qt.white)
-    dark_palette.setColor(QPalette.Button, QColor(53, 53, 53))
-    dark_palette.setColor(QPalette.ButtonText, Qt.white)
-    dark_palette.setColor(QPalette.BrightText, Qt.red)
-    dark_palette.setColor(QPalette.Link, QColor(42, 130, 218))
-    dark_palette.setColor(QPalette.Highlight, QColor(42, 130, 218))
-    dark_palette.setColor(QPalette.HighlightedText, Qt.black)
+    self.dark_palette = QPalette()
+    self.dark_palette = QPalette()
+    self.dark_palette.setColor(QPalette.Window, QColor(53, 53, 53))
+    self.dark_palette.setColor(QPalette.WindowText,Qt.white)
+    self.dark_palette.setColor(QPalette.Base, QColor(25, 25, 25))
+    self.dark_palette.setColor(QPalette.AlternateBase, QColor(53, 53, 53))
+    self.dark_palette.setColor(QPalette.ToolTipBase, QColor(53, 53, 53))
+    self.dark_palette.setColor(QPalette.ToolTipText, Qt.white)
+    self.dark_palette.setColor(QPalette.Text, Qt.white)
+    self.dark_palette.setColor(QPalette.Button, QColor(53, 53, 53))
+    self.dark_palette.setColor(QPalette.ButtonText, Qt.white)
+    self.dark_palette.setColor(QPalette.BrightText, Qt.red)
+    self.dark_palette.setColor(QPalette.Link, QColor(42, 130, 218))
+    self.dark_palette.setColor(QPalette.Highlight, QColor(42, 130, 218))
+    self.dark_palette.setColor(QPalette.HighlightedText, Qt.black)

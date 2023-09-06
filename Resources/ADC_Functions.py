@@ -22,8 +22,7 @@ def setChannel(self):
             self.PinName_2.setPlainText("")
         else:   
             App_Functions.ChangeToolTip(self,None,App_Functions.Find_Pin(self,RegisterName,pinNumber),Mode)       
-        App_Functions.HighlightPin(self,RegisterName,pinNumber,Mode)
-            
+        App_Functions.HighlightPin(self,RegisterName,pinNumber,Mode)    
 #================================================================================#
 #                              Reset ADC Pin  Channel                            #
 #================================================================================#
