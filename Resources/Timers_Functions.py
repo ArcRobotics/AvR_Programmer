@@ -5,19 +5,31 @@ from Resources import GPIO_Functions
 #                                   set Timmer                                   #
 #================================================================================#
 def setTimer(self):
-    self.TimmerSetting = None
-    TimerNum=self.Timer_Select.currentIndex()
-    Timer_Mode=self.Timer_ModeSelect.currentText()
-    ClockDev=self.Timer_PsSelect.currentText()
-    self.OCR_setting = None
+
+    #Variables that have self will be stored accross the 
+    #Entire Program so that they could be later used in restting the settings
+    self.TimmerSetting = None                       #String to store all the timer settings
+    self.Interrupt_setting=None                     #String to store the interrupt Setting
+    self.Interrupt_FunctionBlock1=None               #String to store the interrupt FunctionBlock
+    self.Interrupt_FunctionBlock2=None               #String to store the interrupt FunctionBlock
+    self.OCR_setting = None                         #Varibale to be used to store the OCR value
+
+    #These variables are use only in this function
+    TimerNum=self.Timer_Select.currentIndex()       #Variable used to add timer number to the timer setting ex(TCCR0)
+    Timer_Mode=self.Timer_ModeSelect.currentText()  #Variable to store the timer Mode CTC/PWM
+    ClockDev=self.Timer_PsSelect.currentText()      #Varibale to store the clock devision 
+    Interrupt=self.Timer_Interrupt.currentText()    #Varibale to store the interrupt Setting
+    InterruptVector=None                       #String to store the interrupt vector
     output = None
 
    
     #Timmer Settings
+    #These settings are as mentioned in the Data sheet
     Cs=[f"(1<<CS{TimerNum}0)",f"(1<<CS{TimerNum}1)",f"(1<<CS{TimerNum}2)"]
     WGM=[f"(1<<WGM{TimerNum}0)",f"(1<<WGM{TimerNum}1)"]
     COM=[f"(1<<COM{TimerNum}0)",f"(1<<COM{TimerNum}1)",f"(1<<COM{TimerNum}0)|(1<<COM{TimerNum}1)"]
 
+    #By default select thhe preScaler to none
     PreScaler = Cs[0]
     if ClockDev == '8':
         PreScaler = Cs[1]
@@ -41,7 +53,7 @@ def setTimer(self):
         else :
             PreScaler = Cs[0]+'|'+Cs[2]  
         
-
+    #This section only apply to the 8 bit timers ->Timer 0,2
     if TimerNum == 0 or TimerNum == 2:
         if "Norm" in Timer_Mode:
             self.TimmerSetting=(f"TCCR{TimerNum}={PreScaler};")  
@@ -69,11 +81,28 @@ def setTimer(self):
 
         #Add Timer Settings line
         App_Functions.addline(self,self.UserInitSection_end,f"{self.TimmerSetting};\n")
-    
+        
+        #Add Interrupt Register selection
+        if "OFF" not in Interrupt:
+            if "OVF"  in Interrupt:
+                self.Interrupt_setting=f"TIMSK=TOIE{TimerNum};\n"
+                InterruptVector=f"TIMER{TimerNum}_OVF"
+            elif "COMP" in Interrupt:
+                self.Interrupt_setting=f"TIMSK=OCIE{TimerNum};\n"
+                InterruptVector=f"TIMER{TimerNum}_COMP"
+            App_Functions.addline(self,self.UserInitSection_end,self.Interrupt_setting)
+            #Add the Setting to the ISR
+            self.Interrupt_FunctionBlock1=f"ISR({InterruptVector}_vect)\n"
+            self.Interrupt_FunctionBlock2="{"+"/*Write your interrupt code here*/"+"}\n"
+            App_Functions.addline(self,self.UserISRSection_end,self.Interrupt_FunctionBlock1)
+            App_Functions.addline(self,self.UserISRSection_end,self.Interrupt_FunctionBlock2)
+
+
         #Add OCR line
         self.OCR_setting=f"OCR{TimerNum}={int(self.Tics)};\n"
-        App_Functions.addline(self,self.UseCodeSection_end,self.OCR_setting)
+        App_Functions.addline(self,self.UserCodeSection_end,self.OCR_setting)
 
+    #To be later added support for 16Bit timer ,Timer 1 
     elif TimerNum == 1 :
         self.Timer_ModeSelect.addItems("CTC(OCR)")
 #================================================================================#
@@ -86,10 +115,15 @@ def ResetTimer(self):
 
     App_Functions.removeline(self,self.UserInitSection_Begin,"HAL.init(HAL.GPIO);")
     App_Functions.removeline(self,self.UserInitSection_Begin,f"{self.TimmerSetting};\n")
-    App_Functions.removeline(self,self.UseCodeSection_Begin,self.OCR_setting)
+    App_Functions.removeline(self,self.UserCodeSection_Begin,self.OCR_setting)
     App_Functions.ChangeToolTip(self,None,App_Functions.Find_Pin(self,RegisterName,pinNumber),"RM")
     App_Functions.HighlightPin(self,RegisterName,pinNumber,"RM")
     App_Functions.removeline(self,self.UserDefineSection_Begin,cmd)
+
+    #Remove the Interrupt Section
+    App_Functions.removeline(self,self.UserInitSection_Begin,self.Interrupt_setting)
+    App_Functions.removeline(self,self.UserInitSection_Begin,self.Interrupt_FunctionBlock1)
+    App_Functions.removeline(self,self.UserInitSection_Begin,self.Interrupt_FunctionBlock2)
 #================================================================================#
 #                     Enable or disable Timer TAB  widgets                       #
 #================================================================================#
@@ -109,6 +143,7 @@ def Enable_Timer_Buttons(self):
         self.Timer_Set.setEnabled(True)
         self.Timer_TriggerSec.setEnabled(True)
         self.Timer_Ticbox.setEnabled(True)
+        self.Timer_Interrupt.setEnabled(True)
 #================================================================================#
 #                         Disable  Timer TAB  widgets                            #
 #================================================================================#
@@ -122,6 +157,7 @@ def Disable_Timer_Buttons(self):
         self.Timer_PWMout.setEnabled(False)
         self.Timer_TriggerSec.setEnabled(False)
         self.Timer_Ticbox.setEnabled(False)
+        self.Timer_Interrupt.setEnabled(False)
 #================================================================================#
 #                         Calculate Timer Trigegr                                #
 #================================================================================#
@@ -176,7 +212,7 @@ def setTimerOutPiN(self,Timer):
     App_Functions.addline(self,self.UserInitSection_end,"HAL.init(HAL.GPIO);\n")
     App_Functions.HighlightPin(self,RegisterName,pinNumber,'Timer')   
     cmd=f"HAL.GPIO->pinMode(HAL.GPIO->{RegisterName},{pinNumber},OUTPUT);\n"
-    App_Functions.addline(self,self.UseCodeSection_end,cmd)
+    App_Functions.addline(self,self.UserCodeSection_end,cmd)
 #================================================================================#
 #                         Set Timer output pin                                   #
 #================================================================================#

@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QFileDialog
+from PySide6.QtWidgets import QFileDialog,QApplication
 from PySide6.QtGui import QTextCursor,QPixmap,QImage,QPalette,QColor,Qt
 
 #================================================================================#
@@ -201,11 +201,17 @@ def FindSelectedPinName(self):
     else:
         ResetVariableBox(self)
 #================================================================================#
-#                           Function to clear Var Name box                       #
+#                        Function to clear Var Name box                          #
 #================================================================================#
 def ResetVariableBox(self):
     self.PinName.setPlainText("")
     self.PinName_2.setPlainText("")  
+#================================================================================#
+#                      Function to Copy Code From text Box                       #
+#================================================================================#
+def copy_text_to_clipboard(self,text):
+    clipboard = QApplication.clipboard()
+    clipboard.setText(text)
 
 def setDarkMode(self):
     # Define dark mode colors

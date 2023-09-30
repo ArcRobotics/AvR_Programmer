@@ -19,6 +19,8 @@ from Resources import App_CodeView
 from Resources import AboutWindow
 import sys
 
+
+
 class AVRApp(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -75,6 +77,7 @@ class AVRApp(QMainWindow):
         self.Timer_Reset=self.Button_dict.get("Timer_Reset") 
         self.ReSetGPIO=self.Button_dict.get("ReSetGPIO_2") 
         self.ReSetChannel=self.Button_dict.get("ReSetChannel") 
+        self.CopyButton=self.Button_dict.get("copyButton") 
         #================================================================================#
                             #Check Boxes
         #================================================================================#
@@ -98,6 +101,7 @@ class AVRApp(QMainWindow):
         self.Timer_PsSelect=self.ComboBoxes_dict.get("Timer_PsSelect")
         self.Timer_Output=self.ComboBoxes_dict.get("Timer_Output")
         self.Timer_PWMout=self.ComboBoxes_dict.get("Timer_PWMout")
+        self.Timer_Interrupt=self.ComboBoxes_dict.get("Interrupt_Type")
         #================================================================================#
                             #PlainTextEdit 
         #================================================================================#
@@ -124,11 +128,13 @@ class AVRApp(QMainWindow):
         
         self.UserDefineSection_Begin="/* USER Define BEGIN 1 */"
         self.UserInitSection_Begin="/* USER INIT BEGIN 1 */"	
-        self.UseCodeSection_Begin="/* USER CODE BEGIN 1 */"
+        self.UserCodeSection_Begin="/* USER CODE BEGIN 1 */"
+        self.UserISRSection_Begin="/* USER ISR BEGIN 1 */"
 
         self.UserDefineSection_end="/* USER Define END 1 */"
         self.UserInitSection_end="/* USER INIT END 1 */"	
-        self.UseCodeSection_end="/* USER CODE END 1 */"
+        self.UserCodeSection_end="/* USER CODE END 1 */"
+        self.UserISRSection_end="/* USER ISR END 1 */"
 
         #Store All libaries Directories HERE
         self.HAL_LIB_Dirc="Libs/Hal.h"
@@ -158,9 +164,10 @@ class AVRApp(QMainWindow):
         self.Timer_PsSelect.currentIndexChanged.connect(lambda:Timers_Functions.ChangeTimer(self))
         self.Timer_Select.currentIndexChanged.connect(lambda:Timers_Functions.Calculate_Timer_Trigger(self))
         self.Timer_ModeSelect.currentIndexChanged.connect(lambda:Timers_Functions.ChangeTimerOutput(self))
+        self.CopyButton.clicked.connect(lambda:App_Functions.copy_text_to_clipboard(self,self.CodeViwer_m.toPlainText()))
 
-        x=QPlainTextEdit()
-        x.setPlainText
+        #x=QCheckBox()
+        #x.isChecked
         
         #self.xlable=self.findChild(QLabel,"label")
         #App_Functions.invert_image_colors(self.xlable)

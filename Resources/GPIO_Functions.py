@@ -97,7 +97,7 @@ def set_GPIO_PIN(self):
                 self.PinName.setPlainText("")
             else:
                 App_Functions.ChangeToolTip(self,None,App_Functions.Find_Pin(self,RegisterName,pinNumber),Mode)
-            App_Functions.addline(self,self.UseCodeSection_end,cmd)
+            App_Functions.addline(self,self.UserCodeSection_end,cmd)
             App_Functions.HighlightPin(self,RegisterName,pinNumber,Mode)               
 #================================================================================#
 #                        Sets the GPIO Tab parameters                            #
