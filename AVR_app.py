@@ -120,26 +120,29 @@ class AVRApp(QMainWindow):
         GPIO_Functions.PinIscliked(self)
         App_Actions.GetActions(self)
         
-        #pyinstaller --name=AVR_app --onefile AVR_app.py
-        #pyinstaller myapp.spec
 
         self.filePath=None
 
         
-        self.UserDefineSection_Begin="/* USER Define BEGIN 1 */"
-        self.UserInitSection_Begin="/* USER INIT BEGIN 1 */"	
-        self.UserCodeSection_Begin="/* USER CODE BEGIN 1 */"
-        self.UserISRSection_Begin="/* USER ISR BEGIN 1 */"
+        self.UserDefineSection_Begin    =   "/* USER Define BEGIN 1 */"
+        self.UserInitSection_Begin      =   "/* USER INIT BEGIN 1 */"	
+        self.UserCodeSection_Begin      =   "/* USER CODE BEGIN 1 */"
+        self.UserISRSection_Begin       =   "/* USER ISR BEGIN 1 */"
+        self.UserLIBsSection_Begin      =   "/* USER LIBS BEGIN 1 */"
 
-        self.UserDefineSection_end="/* USER Define END 1 */"
-        self.UserInitSection_end="/* USER INIT END 1 */"	
-        self.UserCodeSection_end="/* USER CODE END 1 */"
-        self.UserISRSection_end="/* USER ISR END 1 */"
+        self.UserDefineSection_end      =   "/* USER Define END 1 */"
+        self.UserInitSection_end        =   "/* USER INIT END 1 */"	
+        self.UserCodeSection_end        =   "/* USER CODE END 1 */"
+        self.UserISRSection_end         =   "/* USER ISR END 1 */"
+        self.UserLIBsSection_end        =   "/* USER LIBS END 1 */"
+        
+
 
         #Store All libaries Directories HERE
         self.HAL_LIB_Dirc="Libs/Hal.h"
-        self.LCD_LIB_Dirc="Libs/LCD_src/Hal.h"
+        self.LCD_LIB_Dirc="Libs/LCD_src/LCD.h"
         self.HAL_LIB_Dirc="Libs/PCF8574.h"
+        self.Interrupt_LIB_Dirc="<avr/interrupt.h>"
 
 
         #By default disable all ADC content until enable is clicked

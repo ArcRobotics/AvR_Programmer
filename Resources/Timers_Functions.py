@@ -10,9 +10,10 @@ def setTimer(self):
     #Entire Program so that they could be later used in restting the settings
     self.TimmerSetting = None                       #String to store all the timer settings
     self.Interrupt_setting=None                     #String to store the interrupt Setting
-    self.Interrupt_FunctionBlock1=None               #String to store the interrupt FunctionBlock
-    self.Interrupt_FunctionBlock2=None               #String to store the interrupt FunctionBlock
+    self.Interrupt_FunctionBlock1=None              #String to store the interrupt FunctionBlock
+    self.Interrupt_FunctionBlock2=None              #String to store the interrupt FunctionBlock
     self.OCR_setting = None                         #Varibale to be used to store the OCR value
+    self.Interrupt_LibCall=None                     #Varibale to be used to store the include of interrupt libarary
 
     #These variables are use only in this function
     TimerNum=self.Timer_Select.currentIndex()       #Variable used to add timer number to the timer setting ex(TCCR0)
@@ -85,15 +86,18 @@ def setTimer(self):
         #Add Interrupt Register selection
         if "OFF" not in Interrupt:
             if "OVF"  in Interrupt:
-                self.Interrupt_setting=f"TIMSK=TOIE{TimerNum};\n"
+                self.Interrupt_setting=f"TIMSK=(1<<TOIE{TimerNum});\n"
                 InterruptVector=f"TIMER{TimerNum}_OVF"
             elif "COMP" in Interrupt:
-                self.Interrupt_setting=f"TIMSK=OCIE{TimerNum};\n"
+                self.Interrupt_setting=f"TIMSK=(1<<OCIE{TimerNum});\n"
                 InterruptVector=f"TIMER{TimerNum}_COMP"
             App_Functions.addline(self,self.UserInitSection_end,self.Interrupt_setting)
             #Add the Setting to the ISR
             self.Interrupt_FunctionBlock1=f"ISR({InterruptVector}_vect)\n"
             self.Interrupt_FunctionBlock2="{"+"/*Write your interrupt code here*/"+"}\n"
+            self.Interrupt_LibCall=f"#include {self.Interrupt_LIB_Dirc}\n"
+             
+            App_Functions.addline(self,self.UserLIBsSection_end,self.Interrupt_LibCall)
             App_Functions.addline(self,self.UserISRSection_end,self.Interrupt_FunctionBlock1)
             App_Functions.addline(self,self.UserISRSection_end,self.Interrupt_FunctionBlock2)
 
@@ -121,6 +125,7 @@ def ResetTimer(self):
     App_Functions.removeline(self,self.UserDefineSection_Begin,cmd)
 
     #Remove the Interrupt Section
+    App_Functions.removeline(self,self.UserLIBsSection_Begin,self.Interrupt_LibCall)
     App_Functions.removeline(self,self.UserInitSection_Begin,self.Interrupt_setting)
     App_Functions.removeline(self,self.UserInitSection_Begin,self.Interrupt_FunctionBlock1)
     App_Functions.removeline(self,self.UserInitSection_Begin,self.Interrupt_FunctionBlock2)

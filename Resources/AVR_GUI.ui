@@ -1363,6 +1363,9 @@ color: rgb(255, 255, 255);
 #include &lt;avr/io.h&gt;
 #include &quot;Libs/Hal.h&quot;
 
+/* USER LIBS BEGIN 1 */	
+/* USER LIBS END 1 */
+
 /* USER Define BEGIN 1 */	
 /* USER Define END 1 */
 
