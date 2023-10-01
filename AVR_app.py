@@ -120,7 +120,7 @@ class AVRApp(QMainWindow):
         App_Functions.App_init(self)
         GPIO_Functions.PinIscliked(self)
         App_Actions.GetActions(self)
-        
+         
 
         self.filePath=None
         
