@@ -79,8 +79,12 @@ def set_GPIO_PIN(self):
     RegisterName=self.RegSelection.currentText()
     PinName=self.PinName.toPlainText()
     Mode=self.ModeSelection.currentText()
+
+    #To find the pin we pass to the function find pin the register name and the pinNumber
     Pin=App_Functions.Find_Pin(self,RegisterName,pinNumber)
 
+    #We cannot set a pin that has been already configured by a Tool Tip
+    #The tool tip protect override of pins configurations
     if Pin.toolTip() =="":
         cmd=f"HAL.GPIO->pinMode(HAL.GPIO->{RegisterName},{pinNumber},{Mode});\n"
         #if the Class pointer is not defined , define it
@@ -88,7 +92,7 @@ def set_GPIO_PIN(self):
             App_Functions.addline(self,self.UserInitSection_end,"HAL.init(HAL.GPIO);\n")
 
         if cmd not in self.CodeViwer_m.toPlainText():
-            #if there is a varibale name
+            #if there is a varibale name add a define line by the pin name 
             if self.PinName.toPlainText() !="":
                 App_Functions.addline(self,self.UserDefineSection_end,f"#define {PinName} {pinNumber}\n")
                 cmd=f"HAL.GPIO->pinMode(HAL.GPIO->{RegisterName},{PinName},{Mode});\n"
@@ -97,6 +101,7 @@ def set_GPIO_PIN(self):
                 self.PinName.setPlainText("")
             else:
                 App_Functions.ChangeToolTip(self,None,App_Functions.Find_Pin(self,RegisterName,pinNumber),Mode)
+
             App_Functions.addline(self,self.UserCodeSection_end,cmd)
             App_Functions.HighlightPin(self,RegisterName,pinNumber,Mode)               
 #================================================================================#

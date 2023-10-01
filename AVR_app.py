@@ -100,6 +100,7 @@ class AVRApp(QMainWindow):
         self.Timer_ModeSelect=self.ComboBoxes_dict.get("Timer_ModeSelect")
         self.Timer_PsSelect=self.ComboBoxes_dict.get("Timer_PsSelect")
         self.Timer_Output=self.ComboBoxes_dict.get("Timer_Output")
+        self.Timer_Output2=self.ComboBoxes_dict.get("Timer_Output_2")
         self.Timer_PWMout=self.ComboBoxes_dict.get("Timer_PWMout")
         self.Timer_Interrupt=self.ComboBoxes_dict.get("Interrupt_Type")
         #================================================================================#
@@ -122,7 +123,6 @@ class AVRApp(QMainWindow):
         
 
         self.filePath=None
-
         
         self.UserDefineSection_Begin    =   "/* USER Define BEGIN 1 */"
         self.UserInitSection_Begin      =   "/* USER INIT BEGIN 1 */"	
@@ -165,13 +165,14 @@ class AVRApp(QMainWindow):
         self.ReSetChannel.clicked.connect(lambda:ADC_Functions.ResetADCPin(self))
         self.Timer_TriggerSec.textChanged.connect(lambda:Timers_Functions.Calculate_Timer_Trigger(self))
         self.Timer_PsSelect.currentIndexChanged.connect(lambda:Timers_Functions.ChangeTimer(self))
+        self.Timer_Output.currentIndexChanged.connect(lambda:Timers_Functions.AddTimer1Settings(self))
         self.Timer_Select.currentIndexChanged.connect(lambda:Timers_Functions.Calculate_Timer_Trigger(self))
         self.Timer_ModeSelect.currentIndexChanged.connect(lambda:Timers_Functions.ChangeTimerOutput(self))
         self.CopyButton.clicked.connect(lambda:App_Functions.copy_text_to_clipboard(self,self.CodeViwer_m.toPlainText()))
 
-        #x=QCheckBox()
-        #x.isChecked
-        
+        x=QComboBox()
+        x.findText("")
+
         #self.xlable=self.findChild(QLabel,"label")
         #App_Functions.invert_image_colors(self.xlable)
 

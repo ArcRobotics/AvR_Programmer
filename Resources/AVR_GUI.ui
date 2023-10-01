@@ -56,7 +56,7 @@
      <rect>
       <x>5</x>
       <y>10</y>
-      <width>361</width>
+      <width>365</width>
       <height>186</height>
      </rect>
     </property>
@@ -92,39 +92,132 @@ color: rgb(255, 255, 255);
        <rect>
         <x>5</x>
         <y>5</y>
-        <width>206</width>
-        <height>143</height>
+        <width>317</width>
+        <height>153</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="4" column="0">
-        <widget class="QPlainTextEdit" name="PinName">
-         <property name="maximumSize">
-          <size>
-           <width>117</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="placeholderText">
-          <string>Enter Pin Name</string>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Pin</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="2">
+       <item row="0" column="1">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>23</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="4">
+        <widget class="QLabel" name="label_16">
+         <property name="maximumSize">
+          <size>
+           <width>53</width>
+           <height>21</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Type</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="4">
+        <widget class="QLabel" name="label_6">
+         <property name="maximumSize">
+          <size>
+           <width>53</width>
+           <height>21</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Interrupt</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Regesiter</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QComboBox" name="comboBox_2">
+         <item>
+          <property name="text">
+           <string>RegA</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>RegB</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>RegC</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>RegD</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="3" column="2">
         <widget class="QPushButton" name="SetGPIO">
          <property name="text">
           <string>Set GPIO</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Mode</string>
+       <item row="0" column="3">
+        <spacer name="horizontalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
          </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>23</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="5">
+        <widget class="QComboBox" name="comboBox_4">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>69</width>
+           <height>21</height>
+          </size>
+         </property>
+         <item>
+          <property name="text">
+           <string>Disabled</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Enabled</string>
+          </property>
+         </item>
         </widget>
        </item>
-       <item row="3" column="2">
+       <item row="2" column="2">
         <widget class="QComboBox" name="comboBox">
          <item>
           <property name="text">
@@ -138,14 +231,7 @@ color: rgb(255, 255, 255);
          </item>
         </widget>
        </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Regesiter</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="2">
+       <item row="1" column="2">
         <widget class="QComboBox" name="comboBox_3">
          <item>
           <property name="text">
@@ -189,55 +275,69 @@ color: rgb(255, 255, 255);
          </item>
         </widget>
        </item>
-       <item row="0" column="2">
-        <widget class="QComboBox" name="comboBox_2">
-         <item>
-          <property name="text">
-           <string>RegA</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>RegB</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>RegC</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>RegD</string>
-          </property>
-         </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Mode</string>
+         </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
+       <item row="3" column="0">
+        <widget class="QPlainTextEdit" name="PinName">
+         <property name="maximumSize">
           <size>
-           <width>23</width>
-           <height>20</height>
+           <width>117</width>
+           <height>30</height>
           </size>
          </property>
-        </spacer>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>Pin</string>
+         <property name="placeholderText">
+          <string>Enter Pin Name</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="2">
+       <item row="4" column="2">
         <widget class="QPushButton" name="ReSetGPIO_2">
          <property name="text">
           <string>Reset GPIO</string>
          </property>
+        </widget>
+       </item>
+       <item row="1" column="5">
+        <widget class="QComboBox" name="comboBox_5">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>69</width>
+           <height>21</height>
+          </size>
+         </property>
+         <item>
+          <property name="text">
+           <string>PinChange</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>High LVL</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Low LVL</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>High Edge</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Low Edge</string>
+          </property>
+         </item>
         </widget>
        </item>
       </layout>
@@ -418,10 +518,10 @@ color: rgb(255, 255, 255);
        <property name="leftMargin">
         <number>3</number>
        </property>
-       <property name="horizontalSpacing">
+       <property name="rightMargin">
         <number>0</number>
        </property>
-       <property name="verticalSpacing">
+       <property name="spacing">
         <number>6</number>
        </property>
        <item row="1" column="2">
@@ -657,17 +757,17 @@ color: rgb(255, 255, 255);
          </property>
          <item>
           <property name="text">
-           <string>Timer 0 (8Bit)</string>
+           <string>Timer0 (8Bit)</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>Timer 1 (16Bit)</string>
+           <string>Timer1 (16Bit)</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>Timer 2 (8Bit)</string>
+           <string>Timer2 (8Bit)</string>
           </property>
          </item>
         </widget>
@@ -735,22 +835,17 @@ color: rgb(255, 255, 255);
          </item>
          <item>
           <property name="text">
-           <string>CTC(ICR)</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>CTC(OCR)</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
            <string>PWM</string>
           </property>
          </item>
          <item>
           <property name="text">
            <string>FAST PWM</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>CTC(OCR)</string>
           </property>
          </item>
         </widget>
@@ -844,6 +939,35 @@ color: rgb(255, 255, 255);
          <item>
           <property name="text">
            <string>OVF</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="1" column="4">
+        <widget class="QComboBox" name="Timer_Output_2">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>68</width>
+           <height>21</height>
+          </size>
+         </property>
+         <item>
+          <property name="text">
+           <string>A</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>B</string>
           </property>
          </item>
         </widget>
