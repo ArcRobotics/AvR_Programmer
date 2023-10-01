@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*
  * AVR Programmer V1.0
  * Created by Omar Al Rafei
@@ -23,14 +24,46 @@
 
 /************************************************************************/
 /*						MASTER Transmitter MODE							*/
+=======
+/*
+ * AVR Programmer V1.0
+ * Created by Omar Al Rafei
+ * 
+ * This code is distributed under the GNU General Public License (GPL) version 3 or later.
+ * For more details, see: https://www.gnu.org/licenses/gpl.html
+ *
+ * This code is intended for educational purposes only. Commercial use is prohibited.
+ * You are required to provide proper attribution to the author, Omar Al Rafei, whenever
+ * using or distributing this code.
+ *
+ * i2c.h
+ *
+ * Created: 6/7/2023 4:01:23 PM
+ *  Author: omar
+ */ 
+
+
+#ifndef I2C_H_
+#define I2C_H_
+#include <avr/io.h>
+
+
+/************************************************************************/
+/*						MASTER Transmitter MODE							*/
+>>>>>>> e0af3a95c7a0a2ae9d668fcb6b205505750c3c7c
 /************************************************************************/
 #define ACK 0x08			//Start
 #define	MT_SlA_ACK 0x18		//SLA+W+ACK
 #define MT_SLA_NACK 0x20	//SLA+W+NACK
 #define MT_DATA_ACK 0x28	//Data Transmitted ACK
 #define MT_DATA_NACK 0x30	//Data Transmitted NACk
+<<<<<<< HEAD
 /************************************************************************/
 /*						MASTER Receiver MODE							*/
+=======
+/************************************************************************/
+/*						MASTER Receiver MODE							*/
+>>>>>>> e0af3a95c7a0a2ae9d668fcb6b205505750c3c7c
 /************************************************************************/
 #define MR_REP_STRT 0x10	//Repeated start
 #define MR_ATT_LOST 0x38	//Attribution lost
@@ -38,16 +71,26 @@
 #define MR_SLA_NACK 0x48	//SLA+R+NACK 
 #define MR_DATA_ACK 0x50	//SLA+R+Data+ACK
 #define MR_DATA_NACK 0x58	//SLA+R+Data+NACK
+<<<<<<< HEAD
 /************************************************************************/
 /*						SLAVE TRANSMITTER MODE							*/
+=======
+/************************************************************************/
+/*						SLAVE TRANSMITTER MODE							*/
+>>>>>>> e0af3a95c7a0a2ae9d668fcb6b205505750c3c7c
 /************************************************************************/
 #define SLVR_ACK 0x60			//SLV+W ACK
 #define SLV_NACK 0x68			//SLA+W NACK
 #define	SLVR_RSTRT_ACK 0x80		//SLA+W ACK Repeated Start
 #define	SLV_RSTRT_NACK 0x88		//SLA+W NACK Repeated Start
 #define SLV_STOP 0xA0			//Stop condition
+<<<<<<< HEAD
 /************************************************************************/
 /*						SLAVE RECIVER MODE								*/
+=======
+/************************************************************************/
+/*						SLAVE RECIVER MODE								*/
+>>>>>>> e0af3a95c7a0a2ae9d668fcb6b205505750c3c7c
 /************************************************************************/
 #define SLVW_ACK 0xA8			//SLV+R ACK
 #define SLV_DATA_ACK 0x80		//Data Received
@@ -88,6 +131,11 @@ class I2C
 	void INIT();			//Initialize the TWI Module
 	void INIT(uint32_t freqKHZ){BAUD=freqKHZ;INIT();};			//Initialize the TWI Module
 
+<<<<<<< HEAD
 };
 
+=======
+};
+
+>>>>>>> e0af3a95c7a0a2ae9d668fcb6b205505750c3c7c
 #endif /* I2C_H_ */

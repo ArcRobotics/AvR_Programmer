@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*
  * AVR Programmer V1.0
  * Created by Omar Al Rafei
@@ -15,6 +16,25 @@
 #include <avr/io.h>
 #include <math.h>
 
+=======
+/*
+ * AVR Programmer V1.0
+ * Created by Omar Al Rafei
+ * 
+ * This code is distributed under the GNU General Public License (GPL) version 3 or later.
+ * For more details, see: https://www.gnu.org/licenses/gpl.html
+ *
+ * This code is intended for educational purposes only. Commercial use is prohibited.
+ * You are required to provide proper attribution to the author, Omar Al Rafei, whenever
+ * using or distributing this code.
+ */
+#ifndef ADC_lib_H_
+#define ADC_lib_H_
+
+#include <avr/io.h>
+#include <math.h>
+
+>>>>>>> e0af3a95c7a0a2ae9d668fcb6b205505750c3c7c
 //=========================================================
 class AdC 
 {
@@ -40,6 +60,11 @@ class AdC
 		Mode=RunningMode;
 		TenBitMode=Resloution;
 	}
+<<<<<<< HEAD
 };
 
+=======
+};
+
+>>>>>>> e0af3a95c7a0a2ae9d668fcb6b205505750c3c7c
 #endif /* INCFILE1_H_ */
